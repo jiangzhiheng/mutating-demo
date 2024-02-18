@@ -1,0 +1,31 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: mutating-demo
+  annotations:
+    cert-manager.io/inject-ca-from: default/mutating-demo
+webhooks:
+  - admissionReviewVersions:
+    - v1beta1
+    - v1
+    clientConfig:
+      service:
+        name: mutating-demo
+        namespace: default
+        path: /mutating-demo
+        port: 8003
+    name: mutating-demo.example.com
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    rules:
+      - apiGroups:
+          - apps
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - deployments
+    sideEffects: None
+    timeoutSeconds: 10

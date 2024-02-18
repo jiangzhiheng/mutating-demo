@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mutating-demo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mutating-demo
+  template:
+    metadata:
+      labels:
+        app: mutating-demo
+    spec:
+      containers:
+        - name: mutating-demo-container
+          image: jiangzhiheng/mutating-demo:v0.1-202402182014
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /path/to/secret
+              readOnly: true
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: mutating-demo

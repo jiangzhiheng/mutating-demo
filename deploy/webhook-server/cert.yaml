@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mutating-demo
+  namespace: default
+spec:
+  dnsNames:
+    - mutating-demo.default.svc
+    - mutating-demo.default.svc.cluster.local
+    - mutating-demo.example.com
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
+  secretName: mutating-demo
